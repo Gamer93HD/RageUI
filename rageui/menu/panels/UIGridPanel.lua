@@ -35,6 +35,7 @@ local Grid = {
         Right = { X = 373.25, Y = 130, Scale = 0.35 },
     },
 }
+local OldX, OldY = 0,0
 
 local function UIGridPanel(Type, StartedX, StartedY, TopText, BottomText, LeftText, RightText, Action, Index)
     local CurrentMenu = RageUI.CurrentMenu
@@ -103,8 +104,14 @@ local function UIGridPanel(Type, StartedX, StartedY, TopText, BottomText, LeftTe
             end
             RageUI.ItemOffset = RageUI.ItemOffset + Grid.Background.Height + Grid.Background.Y
             if Hovered and Selected then
-                local Audio = RageUI.Settings.Audio
-                RageUI.PlaySound(Audio[Audio.Use].Slider.audioName, Audio[Audio.Use].Slider.audioRef, true)
+                if X ~= OldX or Y ~= OldY then
+                    local Audio = RageUI.Settings.Audio
+                    RageUI.PlaySound(Audio[Audio.Use].Slider.audioName, Audio[Audio.Use].Slider.audioRef, true)
+                end
+                
+                OldX = X
+                OldY = Y
+
                 if (Action.onSelected ~= nil) then
                     Action.onSelected(X, Y, (X * 2 - 1), (Y * 2 - 1));
                 end
